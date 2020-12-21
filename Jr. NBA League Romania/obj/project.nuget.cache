@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "En5zzZOyay+2i51g4fYU+OHa+NttENl6Xvl8OH0ucvj7j0PJI2fhOPr8Jf0l6e2lWJoCtumPDHQPEhqXw6pDRg==",
+  "success": true,
+  "projectFilePath": "C:\\Documente\\Discipline facultate\\Semestrul3\\Metode avansate de programare\\Laboratoare\\L9 C#\\Jr. NBA League Romania\\Jr. NBA League Romania\\Jr. NBA League Romania.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Alex\\.nuget\\packages\\npgsql\\5.0.1.1\\npgsql.5.0.1.1.nupkg.sha512",
+    "C:\\Users\\Alex\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\4.6.0\\system.runtime.compilerservices.unsafe.4.6.0.nupkg.sha512"
+  ],
+  "logs": []
+}

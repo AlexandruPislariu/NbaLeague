@@ -13,6 +13,7 @@ namespace Jr._NBA_League_Romania.model
         public int Points { get; set; }
 
         public Type TypePlayer { get; set; }
+        
 
     }
 }
