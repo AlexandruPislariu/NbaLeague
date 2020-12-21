@@ -21,6 +21,7 @@ namespace Jr._NBA_League_Romania.repository
         public abstract string GetIdCondition(ID id);
         public abstract string GetTableColumns();
         public abstract E ExecuteInsert(E entity, NpgsqlCommand command);
+        public abstract string GetTableValues();
         public DatabaseRepository(String tableName)
         {
             TableName = tableName;
@@ -36,21 +37,21 @@ namespace Jr._NBA_League_Romania.repository
 
             // Making connection with Npgsql provider
             connection = new NpgsqlConnection(connstring);
-            connection.Open();
         }
         public E Delete(ID id)
         {
+            connection.Open();
             string queryDelete = "DELETE FROM " + TableName + " WHERE " + GetIdCondition(id);
             NpgsqlCommand command = new NpgsqlCommand(queryDelete, connection);
             NpgsqlDataReader reader = command.ExecuteReader();
-            while (reader.Read())
-                return ExtractEntity(reader);
+            connection.Close();
 
             return null;
         }
 
         public IEnumerable<E> FindAll()
         {
+            connection.Open();
             string querySelect = "SELECT * FROM " + TableName;
             NpgsqlCommand command = new NpgsqlCommand(querySelect, connection);
             NpgsqlDataReader reader = command.ExecuteReader();
@@ -59,26 +60,35 @@ namespace Jr._NBA_League_Romania.repository
             while (reader.Read())
                 elements.Add(ExtractEntity(reader));
 
+            connection.Close();
             return elements;
         }
 
         public E FindOne(ID id)
         {
+            connection.Open();
+
             string querySelectOne = "SELECT * FROM " + TableName + " WHERE " + GetIdCondition(id);
             NpgsqlCommand command = new NpgsqlCommand(querySelectOne, connection);
             NpgsqlDataReader reader = command.ExecuteReader();
 
+            E foundEntity = null;
             while (reader.Read())
-                return ExtractEntity(reader);
+                foundEntity = ExtractEntity(reader);
 
-            return null;
+            connection.Close();
+            return foundEntity;
         }
 
         public E Save(E entity)
         {
-            string queryInsert = "INSERT INTO " + TableName + " VALUES " + GetTableColumns();
+            connection.Open();
+
+            string queryInsert = "INSERT INTO " + TableName + GetTableColumns() + " VALUES " + GetTableValues();
             NpgsqlCommand command = new NpgsqlCommand(queryInsert, connection);
-            return ExecuteInsert(entity, command);
+            E savedEntity = ExecuteInsert(entity, command);
+            connection.Close();
+            return savedEntity;
         }
 
         public E Update(E entity)

@@ -23,9 +23,12 @@ namespace Jr._NBA_League_Romania.repository
 
         public override Team ExtractEntity(NpgsqlDataReader reader)
         {
-            long ID = reader.GetFieldValue<long>(1);
-            string name = reader.GetFieldValue<string>(2);
-            return new Team(ID, name);
+            long ID = reader.GetFieldValue<long>(0);
+            string name = reader.GetFieldValue<string>(1);
+            Team team = new Team();
+            team.ID = ID;
+            team.Name = name;
+            return team;
         }
 
         public override string GetIdCondition(long id)
@@ -34,6 +37,11 @@ namespace Jr._NBA_League_Romania.repository
         }
 
         public override string GetTableColumns()
+        {
+            return "(name)";
+        }
+
+        public override string GetTableValues()
         {
             return "(@name)";
         }

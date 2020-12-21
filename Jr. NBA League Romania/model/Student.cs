@@ -7,7 +7,7 @@ namespace Jr._NBA_League_Romania.model
 {
     class Student : Entity<long>
     {
-        public Student(long id, string name, string school) : base(id)
+        public Student(string name, string school)
         {
             Name = name;
             School = school;
