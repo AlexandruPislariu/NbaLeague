@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Avalonia.Desktop" Version="0.9.12" />
     <PackageReference Include="DotNetEnv" Version="2.0.0" />
     <PackageReference Include="Npgsql" Version="5.0.1.1" />
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="5.0.0" />

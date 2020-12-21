@@ -7,11 +7,6 @@ namespace Jr._NBA_League_Romania.model
 {
     class Match : Entity<long>
     {
-        public Match(long first, long second)
-        {
-            FirstTeam = first;
-            SecondTeam = second;
-        }
 
         public long FirstTeam { get; set; }
         public long SecondTeam { get; set; }

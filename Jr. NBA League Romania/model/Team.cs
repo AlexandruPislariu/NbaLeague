@@ -7,8 +7,14 @@ namespace Jr._NBA_League_Romania.model
 {
     class Team : Entity<long>
     {
-
         public string Name { get; set; }
 
+        public string ToString()
+        {
+            return Name;
+        }
+
     }
+
+
 }
