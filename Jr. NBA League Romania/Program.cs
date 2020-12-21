@@ -15,21 +15,15 @@ namespace Jr._NBA_League_Romania
         {
             string tableTeams = ConfigurationManager.AppSettings["database.table.Teams"];
             string tablePlayers = ConfigurationManager.AppSettings["database.table.Players"];
+            string tableMatches = ConfigurationManager.AppSettings["database.table.Matches"];
             IRepository<long, Team> repoTeam = new TeamDatabaseRepository(tableTeams);
             IRepository<long, Player> repoPlayer = new PlayerDatabaseRepository(tablePlayers);
+            IRepository<long, Match> repoMatch = new MatchDatabaseRepository(tableMatches);
             TeamService servTeam = new TeamService(repoTeam);
             PlayerService servPlayer = new PlayerService(repoPlayer);
+            MatchService servMatch = new MatchService(repoMatch);
 
 
-            Team team = new Team()
-            { 
-                ID = 1,
-                Name = "Houston Rockets"
-            };
-
-            List<Player> playersTeam = servPlayer.allPlayersInATeam(team);
-            foreach(var player in playersTeam)
-                Console.WriteLine(player);
 
         }
     }
