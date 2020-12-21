@@ -18,11 +18,11 @@ namespace Jr._NBA_League_Romania.service
 
         public Match addMatch(long firstTeam, long secondTeam, DateTime date)
         {
-            Match match = new Match(firstTeam, secondTeam)
-            {
-                Date = date
-            };
-            return repoMatch.Save(match);
+            //Match match = new Match(firstTeam, secondTeam)
+            //{
+            //    Date = date
+            //};
+            //return repoMatch.Save(match);
         }
 
         public List<Match> allMatchesInPeriod(DateTime startPeriod, DateTime endPeriod)

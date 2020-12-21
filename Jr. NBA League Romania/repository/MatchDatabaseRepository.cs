@@ -27,8 +27,10 @@ namespace Jr._NBA_League_Romania.repository
             long first_team = reader.GetFieldValue<long>(1);
             long second_team = reader.GetFieldValue<long>(2);
             DateTime date = reader.GetFieldValue<DateTime>(3);
-            Match match = new Match(first_team, second_team)
+            Match match = new Match()
             {
+                FirstTeam = first_team,
+                SecondTeam = second_team,
                 Date = date
             };
             return match;
