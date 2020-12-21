@@ -6,10 +6,15 @@ namespace Jr._NBA_League_Romania.model
 {
     class Player : Student
     {
-        public Player(long id, string name, string school, Team team) : base(id, name, school)
+        public Player(string name, string school, long teamId) : base(name, school)
         {
-            Team = team;
+            TeamId = teamId;
         }
-        public Team Team { get; set; }
+        public long TeamId { get; set; }
+
+        public override string ToString()
+        {
+            return Name + " " + School;
+        }
     }
 }
