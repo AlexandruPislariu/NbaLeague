@@ -29,6 +29,7 @@ namespace Jr._NBA_League_Romania.repository
             DateTime date = reader.GetFieldValue<DateTime>(3);
             Match match = new Match()
             {
+                ID = id,
                 FirstTeam = first_team,
                 SecondTeam = second_team,
                 Date = date

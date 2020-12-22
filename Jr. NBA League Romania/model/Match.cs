@@ -12,6 +12,6 @@ namespace Jr._NBA_League_Romania.model
         public long SecondTeam { get; set; }
         public DateTime Date { get; set; }
 
-   
+            
     }
 }

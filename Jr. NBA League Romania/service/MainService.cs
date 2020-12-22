@@ -31,22 +31,26 @@ namespace Jr._NBA_League_Romania.service
 
         public List<Player> AllActivePlayersInTeamMatch(Team team, Match match)
         {
+            Match foundMatch = repoMatch.FindOne(match.ID);
+            Team foundTeam = repoTeam.FindOne(team.ID);
             List<ActivePlayer> allPlayersInMatch = repoActivity.FindAll().ToList()
-                                                .Where(activePlayer => activePlayer.ID.Item2 == match.ID)
+                                                .Where(activePlayer => activePlayer.ID.Item2 == foundMatch.ID)
                                                 .ToList();
 
             List<Player> allPlayersFromTeam = allPlayersInMatch
                 .Select(activePlayer => repoPlayer.FindOne(activePlayer.ID.Item1))
-                .Where(player => player.TeamId == team.ID)
+                .Where(player => player.TeamId == foundTeam.ID)
                 .ToList();
 
             return allPlayersFromTeam;
         }
 
-        public List<Match> AllMatchesInPeriod(DateTime startPeriod, DateTime endPeriod)
+        public List<String> AllMatchesInPeriod(DateTime startPeriod, DateTime endPeriod)
         {
-            List<Match> allMatchesInPeriod = repoMatch.FindAll().ToList()
+            List<String> allMatchesInPeriod = repoMatch.FindAll().ToList()
                                                        .Where(match => match.Date.CompareTo(startPeriod) >= 0 && match.Date.CompareTo(endPeriod) <= 0)
+                                                       .Select(match => new { MatchDescription = repoTeam.FindOne(match.FirstTeam).Name + " - " + repoTeam.FindOne(match.SecondTeam).Name})
+                                                       .Select(matchDesc => matchDesc.MatchDescription)
                                                        .ToList();
 
             return allMatchesInPeriod;
@@ -54,13 +58,14 @@ namespace Jr._NBA_League_Romania.service
 
         public string ScoreMatch(Match match)
         {
-            long firstTeamId = match.FirstTeam;
+            Match foundMatch = repoMatch.FindOne(match.ID);
+            long firstTeamId = foundMatch.FirstTeam;
             Team firstTeam = repoTeam.FindOne(firstTeamId);
-            long secondTeamId = match.SecondTeam;
+            long secondTeamId = foundMatch.SecondTeam;
             Team secondTeam = repoTeam.FindOne(secondTeamId);
 
             long firstTeamScore = repoActivity.FindAll().ToList()
-                                            .Where(activePlayer => activePlayer.ID.Item2 == match.ID)
+                                            .Where(activePlayer => activePlayer.ID.Item2 == foundMatch.ID)
                                             .Where(activePlayer =>
                                             {
                                                 long idPlayer = activePlayer.ID.Item1;
@@ -70,7 +75,7 @@ namespace Jr._NBA_League_Romania.service
                                             .Sum(activePlayer => activePlayer.Points);
 
             long secondTeamScore = repoActivity.FindAll().ToList()
-                                        .Where(activePlayer => activePlayer.ID.Item2 == match.ID)
+                                        .Where(activePlayer => activePlayer.ID.Item2 == foundMatch.ID)
                                         .Where(activePlayer =>
                                             {
                                                 long idPlayer = activePlayer.ID.Item1;
