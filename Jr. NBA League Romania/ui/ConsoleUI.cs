@@ -4,13 +4,13 @@ using Jr._NBA_League_Romania.service;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
-using System.Text;
 
 namespace Jr._NBA_League_Romania.ui
 {
     class ConsoleUI
     {
         MainService serviceApp;
+        //const string[] features = [ "scoreMatch", "matchesPeriod" ];
         private void setUpService()
         {
             string tableTeams = ConfigurationManager.AppSettings["database.table.Teams"];
@@ -29,8 +29,18 @@ namespace Jr._NBA_League_Romania.ui
             setUpService();
         }
 
+        private void ShowCommands()
+        {
+            Console.WriteLine("Commands:");
+            Console.WriteLine("playersTeam       -> show all players in a team");
+            Console.WriteLine("activePlayersTeam -> show all active players from a team in one match");
+            Console.WriteLine("matchesPeriod     -> show all matches between two dates");
+            Console.WriteLine("scoreMatch        -> show match score");
+        }
         public void Run()
         {
+
+            ShowCommands();
             string command;
             while(true)
             {
@@ -39,7 +49,7 @@ namespace Jr._NBA_League_Romania.ui
                 string commandName = command.Split(' ')[0];
                 string[] parameters = command.Split(' ');
 
-                if(commandName.Equals("allPlayersTeam"))
+                if(commandName.Equals("playersTeam"))
                 {
                     long teamId = long.Parse(parameters[1]);
                     Team team = new Team()
@@ -50,7 +60,7 @@ namespace Jr._NBA_League_Romania.ui
                     foreach(var player in players)
                         Console.WriteLine(player);
                 }
-                if(commandName.Equals("allActivePlayersTeam"))
+                if(commandName.Equals("activePlayersTeam"))
                 {
                     long teamId = long.Parse(parameters[1]);
                     long matchId = long.Parse(parameters[2]);
@@ -66,6 +76,26 @@ namespace Jr._NBA_League_Romania.ui
 
                     foreach(var activePlayer in allActivePlayers)
                         Console.WriteLine(activePlayer);
+                }
+                if(commandName.Equals("matchesPeriod"))
+                {
+                    string startPeriod = parameters[1];
+                    string endPeriod = parameters[2];
+
+                    List<String> matchesPeriod = serviceApp.AllMatchesInPeriod(DateTime.Parse(startPeriod), DateTime.Parse(endPeriod));
+
+                    foreach(var match in matchesPeriod)
+                        Console.WriteLine(match);
+                }
+                if(commandName.Equals("scoreMatch"))
+                {
+                    long idMatch = long.Parse(parameters[1]);
+                    Match match = new Match()
+                    {
+                        ID = idMatch
+                    };
+                    
+                    Console.WriteLine(serviceApp.ScoreMatch(match));
                 }
             }
         }
